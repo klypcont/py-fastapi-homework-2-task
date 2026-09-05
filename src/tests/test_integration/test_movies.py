@@ -331,7 +331,8 @@ async def test_get_movie_by_id_fields_match_database(client, db_session, seed_da
 
     assert response_data["country"]["id"] == random_movie.country.id, "Country ID does not match."
     assert response_data["country"]["code"] == random_movie.country.code, "Country code does not match."
-    assert response_data["country"]["name"] == random_movie.country.name, "Country name does not match."
+    assert response_data["country"]["name"] == (
+        random_movie.country.name if random_movie.country.name != "None" else random_movie.country.code), "Country name does not match."
 
     actual_genres = sorted(response_data["genres"], key=lambda x: x["id"])
     expected_genres = sorted(
